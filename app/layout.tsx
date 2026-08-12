@@ -15,8 +15,8 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://szlavikrolo.hu'),
-  title: 'Szlávik Roló | Redőny Szerelés, Javítás & Szúnyogháló Jánoshalma',
-  description: 'Professzionális műanyag és alumínium redőny beszerelés, motorizálás, redőny javítás és szúnyogháló készítés Jánoshalmán és 100 km-es körzetében. Ingyenes kiszállás 50 km-ig!',
+  title: 'Szlávik Roló | Redőny Szerelés, Szúnyogháló & Műanyag Párkány Jánoshalma',
+  description: 'Professzionális műanyag és alumínium redőny beépítés, szerviz, szúnyogháló készítés és műanyag ablakpárkány szerelés Jánoshalmán és 100 km-es körzetében. Ingyenes kiszállás 50 km-ig!',
   keywords: [
     'redőny Jánoshalma',
     'redőny szerelés',
@@ -25,6 +25,9 @@ export const metadata: Metadata = {
     'alumínium redőny',
     'motoros redőny',
     'szúnyogháló készítés',
+    'műanyag párkány',
+    'ablakpárkány beépítés',
+    'műanyag könyöklő',
     'palástcsere',
     'Szlávik Roló',
     'redőnyös Bács-Kiskun',
@@ -45,8 +48,8 @@ export const metadata: Metadata = {
     apple: '/logo.webp',
   },
   openGraph: {
-    title: 'Szlávik Roló | Redőny Beszerelés & Szúnyogháló Jánoshalmán',
-    description: 'Műanyag és alumínium redőny gyártás, beépítés, szerviz és szúnyogháló készítés Jánoshalmán és 100 km-es körzetében. Ingyenes kiszállás 50 km-ig!',
+    title: 'Szlávik Roló | Redőny, Szúnyogháló & Műanyag Párkány Beépítés',
+    description: 'Műanyag és alumínium redőny gyártás, beépítés, szerviz, szúnyogháló készítés és műanyag ablakpárkány beszerelés Jánoshalmán és környékén.',
     url: 'https://szlavikrolo.hu',
     type: 'website',
     locale: 'hu_HU',
@@ -62,8 +65,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Szlávik Roló | Redőny Szerelés & Szúnyogháló Jánoshalma',
-    description: 'Redőny beszerelés, javítás és szúnyogháló készítés Jánoshalmán és 100 km-es körzetében. Ingyenes felmérés!',
+    title: 'Szlávik Roló | Redőny, Szúnyogháló & Műanyag Párkány Jánoshalma',
+    description: 'Redőny beszerelés, javítás, szúnyogháló készítés és műanyag ablakpárkány beépítés Jánoshalmán és 100 km-es körzetében.',
     images: ['/logo.webp'],
   },
   robots: {
@@ -88,7 +91,7 @@ const jsonLdLocalBusiness = {
   'url': 'https://szlavikrolo.hu',
   'telephone': '+36307826402',
   'priceRange': '$$',
-  'description': 'Műanyag és alumínium redőnyök gyártása, beszerelése, szervizelése, komplett palástcseréje és szúnyogháló készítése Jánoshalmán és 100 km-es körzetében.',
+  'description': 'Műanyag és alumínium redőnyök gyártása, beszerelése, szervizelése, komplett palástcseréje, szúnyogháló készítése és műanyag ablakpárkányok beépítése Jánoshalmán és 100 km-es körzetében.',
   'address': {
     '@type': 'PostalAddress',
     'addressLocality': 'Jánoshalma',
@@ -153,6 +156,13 @@ const jsonLdLocalBusiness = {
         'itemOffered': {
           '@type': 'Service',
           'name': 'Szúnyogháló gyártás és beépítés'
+        }
+      },
+      {
+        '@type': 'Offer',
+        'itemOffered': {
+          '@type': 'Service',
+          'name': 'Műanyag ablakpárkány és könyöklő beépítés'
         }
       }
     ]

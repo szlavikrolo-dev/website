@@ -47,14 +47,20 @@ const services = [
     desc: "Kiszakadt hálók cseréje, keretek és zsanérok felújítása vagy cseréje helyszíni felméréssel.",
     badge: "Szerviz"
   },
+  { 
+    icon: Layers, 
+    title: "Műanyag ablakpárkány beépítés", 
+    desc: "Kültéri és beltéri műanyag ablakpárkányok, könyöklők méretre vágása, beépítése és cseréje időjárásálló kivitelben.",
+    badge: "Új kínálat"
+  },
 ];
 
 const benefits = [
   { icon: HomeIcon, title: "Helyi családi vállalkozás", desc: "Ismerjük a környéket és a helyi igényeket. Személyes kapcsolat, közvetlen megbeszélés call center nélkül." },
   { icon: Zap, title: "Gyors reagálás és felmérés", desc: "Telefonhívás után 2 órán belül visszahívjuk. Sürgős meghibásodás esetén gyors kiszállást biztosítunk." },
-  { icon: Award, title: "Garancia minden munkára", desc: "Minden beépített redőnyre, szúnyoghálóra és javításra teljes körű garanciát vállalunk." },
+  { icon: Award, title: "Garancia minden munkára", desc: "Minden beépített redőnyre, szúnyoghálóra, párkányra és javításra teljes körű garanciát vállalunk." },
   { icon: ThumbsUp, title: "Korrekt, egyedi árajánlat", desc: "Nincsenek rejtett költségek. Jánoshalma 50 km-es körzetében a kiszállás ingyenes, az árajánlat átlátható és személyre szabott." },
-  { icon: Wrench, title: "Saját egyedi gyártás", desc: "Egyedi méretre készítjük el a redőnyöket és szúnyoghálókat, így tökéletesen passzol minden ablakra." },
+  { icon: Wrench, title: "Saját egyedi gyártás", desc: "Egyedi méretre készítjük el a redőnyöket, szúnyoghálókat és párkányokat, így tökéletesen passzol minden ablakra." },
   { icon: Clock, title: "Hétvégén is elérhetők", desc: "Hétfőtől szombatig elérhetők vagyunk, igazodva az Ön szabadidejéhez." },
 ];
 
@@ -62,7 +68,7 @@ const processSteps = [
   { icon: Phone, title: "1. Kapcsolatfelvétel", desc: "Hívjon minket a +36 30 782 6402 mobilszámon vagy kattintson a kapcsolatfelvételre." },
   { icon: MapPin, title: "2. Ingyenes felmérés", desc: "Kijövünk a helyszínre Jánoshalmán és környékén, pontosan felmérjük a méreteket. Kötelezettségmentes." },
   { icon: Mail, title: "3. Árajánlat adása", desc: "A felmérés alapján azonnal, vagy 24 órán belül személyre szabott árajánlatot adunk." },
-  { icon: CheckCircle2, title: "4. Gyártás és beépítés", desc: "Egyeztetett időpontban megérkezünk, tisztán és garanciával beépítjük a redőnyöket." },
+  { icon: CheckCircle2, title: "4. Gyártás és beépítés", desc: "Egyeztetett időpontban megérkezünk, tisztán és garanciával beépítjük a redőnyöket, párkányokat." },
 ];
 
 const galleryImages = [
@@ -72,11 +78,11 @@ const galleryImages = [
 ];
 
 const faqs = [
-  { q: "Mennyibe kerül egy redőny vagy szúnyogháló beépítése?", a: "Minden nyílászáró mérete és típusa egyedi, ezért a pontos árat a helyszíni felmérés során tudjuk megadni. A felmérés ingyenes és kötelezettségmentes, 24 órán belül megkapja a pontos árajánlatot." },
-  { q: "Mennyi idő alatt készül el a redőny a megrendeléstől számítva?", a: "A felméréstől és megrendeléstől számítva általában 1-2 héten belül legyártjuk és beépítjük a redőnyöket. Sürgős redőnyjavítást és szervizelést akár azonnal is vállalunk." },
-  { q: "Milyen garanciát adnak a munkára?", a: "Minden általunk beépített redőnyre, szúnyoghálóra és elvégzett szerelésre garanciát vállalunk. A garanciális feltételeket a felméréskor átláthatóan megbeszéljük." },
+  { q: "Mennyibe kerül egy redőny, szúnyogháló vagy műanyag párkány beépítése?", a: "Minden nyílászáró mérete és típusa egyedi, ezért a pontos árat a helyszíni felmérés során tudjuk megadni. A felmérés ingyenes és kötelezettségmentes, 24 órán belül megkapja a pontos árajánlatot." },
+  { q: "Mennyi idő alatt készül el a redőny vagy párkány a megrendeléstől számítva?", a: "A felméréstől és megrendeléstől számítva általában 1-2 héten belül legyártjuk és beépítjük a redőnyöket, szúnyoghálókat és ablakpárkányokat. Sürgős javítást és szervizelést akár azonnal is vállalunk." },
+  { q: "Milyen garanciát adnak a munkára?", a: "Minden általunk beépített redőnyre, szúnyoghálóra, műanyag ablakpárkányra és elvégzett szerelésre garanciát vállalunk. A garanciális feltételeket a felméréskor átláthatóan megbeszéljük." },
   { q: "Hétvégén is elérhetők és vállalnak munkát?", a: "Igen, szombaton is dolgozunk 8:00 és 16:00 között, mivel tudjuk, hogy sok ügyfelünknek a hétköznap elfoglalt." },
-  { q: "Milyen típusú redőnyöket kínálnak?", a: "Kínálatunkban megtalálhatók a prémium alumínium redőnyök, költséghatékony UV-álló műanyag redőnyök, vakolható tokos rendszerek, valamint kézi és motoros (távirányítós/fali kapcsolós) megoldások." },
+  { q: "Milyen árnyékolástechnikai és nyílászáró kiegészítőket kínálnak?", a: "Kínálatunkban megtalálhatók a prémium alumínium redőnyök, UV-álló műanyag redőnyök, vakolható tokos rendszerek, kézi és motoros megoldások, fix és rolós szúnyoghálók, valamint beltéri és kültéri műanyag ablakpárkányok / könyöklők." },
   { q: "Tényleg ingyenes a kiszállás?", a: "Igen! Jánoshalma 50 km-es körzetében a kiszállás és felmérés teljesen ingyenes, és nem kötelezi Önt vásárlásra." },
 ];
 
@@ -142,7 +148,7 @@ export default function Home() {
 
             {/* 4. Centered Subtitle */}
             <p className="text-base sm:text-xl text-slate-600 font-normal leading-relaxed max-w-2xl mx-auto">
-              Prémium műanyag és alumínium redőnyök gyártása, beszerelése, szakszerű javítása és szúnyoghálók készítése egyedi méretre — közvetlenül a helyi szakembertől!
+              Prémium műanyag és alumínium redőnyök gyártása, beszerelése, javítása, szúnyoghálók készítése és műanyag ablakpárkányok beépítése egyedi méretre — közvetlenül a helyi szakembertől!
             </p>
 
             {/* 5. Centered Action Buttons & Direct Call Links */}
