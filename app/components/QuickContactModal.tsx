@@ -60,34 +60,39 @@ export default function QuickContactModal({ isOpen, onClose }: QuickContactModal
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100 animate-in zoom-in-95 duration-200">
+    <div 
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-[99999] flex items-center justify-center p-2 sm:p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto"
+    >
+      <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100 flex flex-col max-h-[88vh] sm:max-h-[90vh] my-auto animate-in zoom-in-95 duration-200">
         
-        {/* Modal Header */}
-        <div className="bg-[#061A40] text-white p-6 relative">
+        {/* Modal Header (Fixed at top) */}
+        <div className="bg-[#061A40] text-white p-4 sm:p-6 relative shrink-0 z-10 pr-12">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full text-gray-300 hover:text-white hover:bg-white/10 transition cursor-pointer"
+            className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 p-2 rounded-full text-gray-300 hover:text-white bg-white/10 hover:bg-white/20 transition cursor-pointer"
             aria-label="Bezárás"
           >
             <X size={22} />
           </button>
           
-          <div className="flex items-center gap-2 mb-2 text-[#60A5FA] text-xs font-bold uppercase tracking-wider">
-            <ShieldCheck size={16} />
+          <div className="flex items-center gap-1.5 mb-1 sm:mb-2 text-[#60A5FA] text-xs font-bold uppercase tracking-wider">
+            <ShieldCheck size={15} />
             <span>Ingyenes & kötelezettségmentes</span>
           </div>
 
-          <h3 className="text-2xl font-bold text-white tracking-tight">
+          <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
             Kapcsolatfelvétel és árajánlat
           </h3>
-          <p className="text-gray-300 text-sm mt-1">
+          <p className="text-gray-300 text-xs sm:text-sm mt-0.5 sm:mt-1">
             Hívjon minket bizalommal vagy küldjön üzenetet — 2 órán belül visszahívjuk!
           </p>
         </div>
 
-        {/* Modal Content */}
-        <div className="p-6 space-y-6">
+        {/* Modal Content (Scrollable on small screens) */}
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 overflow-y-auto flex-1">
 
           {/* Instant Call Section */}
           <div>
