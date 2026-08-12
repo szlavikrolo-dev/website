@@ -2,66 +2,78 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ChevronUp, MousePointerClick } from 'lucide-react';
 
 export default function ShutterOverlay() {
   const [hasMounted, setHasMounted] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isDismissed, setIsDismissed] = useState(false);
+  const [showLogo, setShowLogo] = useState(false);
   const [isRetracting, setIsRetracting] = useState(false);
 
   useEffect(() => {
     setHasMounted(true);
+    
+    // Check if user has already seen the shutter in this session
     try {
       localStorage.removeItem('szlavik_shutter_seen');
       const shutterSeen = sessionStorage.getItem('szlavik_shutter_seen');
-      if (!shutterSeen) {
-        setIsVisible(true);
+      if (shutterSeen) {
+        setIsDismissed(true);
+        return;
       }
-    } catch (e) {
-      setIsVisible(true);
-    }
+    } catch (e) {}
 
+    // Sequence 1: 1 second after shutter appears -> Smoothly fade in logo
+    const logoTimer = setTimeout(() => {
+      setShowLogo(true);
+    }, 1000);
+
+    // Sequence 2: 2 seconds after logo appears (Total 3 seconds) -> Auto retract shutter
+    const retractTimer = setTimeout(() => {
+      setIsRetracting(true);
+      try {
+        sessionStorage.setItem('szlavik_shutter_seen', 'true');
+      } catch (e) {}
+    }, 3000);
+
+    // Dev helper: Shift + R shortcut to re-trigger shutter animation sequence anytime
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.shiftKey && (e.key === 'R' || e.key === 'r')) {
         try {
           sessionStorage.removeItem('szlavik_shutter_seen');
         } catch (err) {}
+        setShowLogo(false);
         setIsRetracting(false);
-        setIsVisible(true);
+        setIsDismissed(false);
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
 
-  const handleOpenShutter = () => {
-    if (isRetracting) return;
-    setIsRetracting(true);
-    try {
-      sessionStorage.setItem('szlavik_shutter_seen', 'true');
-    } catch (e) {
-      console.error('Could not save to sessionStorage:', e);
-    }
-  };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      clearTimeout(logoTimer);
+      clearTimeout(retractTimer);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   // Only unmount when the main root container's translateY transform animation finishes
   const handleAnimationEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
     if (e.currentTarget === e.target && e.propertyName === 'transform' && isRetracting) {
-      setIsVisible(false);
+      setIsDismissed(true);
     }
   };
 
-  // Fallback cleanup timer (2.7s) to guarantee unmount even if event listener fails
+  // Fallback cleanup timer (2.7s after retract starts = 5.7s total) to guarantee unmount
   useEffect(() => {
     if (isRetracting) {
       const timer = setTimeout(() => {
-        setIsVisible(false);
+        setIsDismissed(true);
       }, 2700);
       return () => clearTimeout(timer);
     }
   }, [isRetracting]);
 
-  if (!hasMounted || !isVisible) {
+  // If already seen / dismissed, remove from DOM completely
+  if (isDismissed) {
     return null;
   }
 
@@ -85,7 +97,7 @@ export default function ShutterOverlay() {
         </span>
       </div>
 
-      {/* Main Redőnylamellák Surface */}
+      {/* Main Fehér Redőnylamellák Surface */}
       <div className="relative flex-1 w-full shutter-slats-bg flex flex-col items-center justify-center px-6 overflow-hidden">
         {/* Left Side Rail (Lefutó) */}
         <div className="absolute top-0 bottom-0 left-0 w-6 sm:w-10 bg-gradient-to-r from-slate-300 via-slate-200 to-slate-300 border-r-2 border-slate-400 z-10 shadow-md" />
@@ -100,13 +112,13 @@ export default function ShutterOverlay() {
           ))}
         </div>
 
-        {/* Center Content: Direct Logo & CTA Button */}
-        <div className={`relative z-20 flex flex-col items-center gap-8 max-w-xl w-full px-4 text-center transition-opacity duration-700 ${
-          isRetracting ? 'opacity-30' : 'opacity-100'
-        }`}>
+        {/* Center Content: Logo (Fades in after 1.0s, auto-retracts after 2.0s more) */}
+        <div className={`relative z-20 flex flex-col items-center gap-4 max-w-xl w-full px-4 text-center transition-all duration-1000 transform ${
+          showLogo ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-2'
+        } ${isRetracting ? 'opacity-40' : ''}`}>
           
-          {/* Logo Presentation in natural aspect ratio */}
-          <div className="relative w-80 sm:w-96 h-28 sm:h-36 px-6 py-4 bg-white/80 backdrop-blur-md rounded-3xl border border-slate-200 shadow-2xl flex items-center justify-center transform hover:scale-105 transition-transform duration-300">
+          {/* Logo Presentation */}
+          <div className="relative w-80 sm:w-96 h-28 sm:h-36 px-6 py-4 bg-white/80 backdrop-blur-md rounded-3xl border border-slate-200 shadow-2xl flex items-center justify-center">
             <Image
               src="/logo.webp"
               alt="Szlávik Roló Logó"
@@ -116,19 +128,9 @@ export default function ShutterOverlay() {
             />
           </div>
 
-          {/* Primary Action Button */}
-          <button
-            onClick={handleOpenShutter}
-            disabled={isRetracting}
-            type="button"
-            className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 bg-gradient-to-r from-[#061A40] via-[#1D4ED8] to-[#061A40] hover:from-[#030F28] hover:to-[#1E40AF] text-white font-extrabold text-lg sm:text-xl rounded-2xl shadow-2xl hover:shadow-blue-600/40 transform hover:-translate-y-1 active:translate-y-0 transition-all duration-300 cursor-pointer overflow-hidden pulse-glow"
-          >
-            <div className="absolute inset-0 w-1/2 h-full bg-white/20 skew-x-12 -translate-x-full group-hover:translate-x-[350%] transition-transform duration-1000" />
-            
-            <ChevronUp className="w-7 h-7 animate-bounce text-blue-200 group-hover:-translate-y-1 transition-transform" />
-            <span>Kattints a folytatáshoz!</span>
-            <MousePointerClick className="w-6 h-6 text-blue-200 opacity-90 group-hover:opacity-100" />
-          </button>
+          <span className="text-xs sm:text-sm font-bold text-slate-600 tracking-wider uppercase bg-white/60 backdrop-blur-sm px-4 py-1.5 rounded-full border border-slate-200/80 shadow-sm">
+            Árnyékolástechnika & Nyílászáró kiegészítők
+          </span>
         </div>
       </div>
 
