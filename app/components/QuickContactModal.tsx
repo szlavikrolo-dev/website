@@ -10,6 +10,8 @@ interface QuickContactModalProps {
 export default function QuickContactModal({ isOpen, onClose }: QuickContactModalProps & { onClose: () => void }) {
   const [copiedPhone, setCopiedPhone] = useState<string | null>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [message, setMessage] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -22,9 +24,39 @@ export default function QuickContactModal({ isOpen, onClose }: QuickContactModal
     setTimeout(() => setCopiedPhone(null), 2000);
   };
 
-  const handleQuickSubmit = (e: React.FormEvent) => {
+  const handleQuickSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true);
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: '4b8f2f7a-c9a2-4681-9503-f9f2b085fc12',
+          subject: `Új visszahívási kérés - ${name}`,
+          from_name: 'Szlávik Roló Weboldal',
+          name: name,
+          phone: phone,
+          message: message || 'Nem adott meg külön üzenetet.',
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setFormSubmitted(true);
+      } else {
+        setSubmitError('Sajnos hiba történt a beküldés során. Kérjük, hívjon minket közvetlenül telefonon!');
+      }
+    } catch (err) {
+      setSubmitError('Hálózati hiba történt. Kérjük, hívjon minket közvetlenül telefonon!');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -200,11 +232,25 @@ export default function QuickContactModal({ isOpen, onClose }: QuickContactModal
                 ></textarea>
               </div>
 
+              {submitError && (
+                <div className="bg-red-50 border border-red-200 text-red-700 text-xs font-semibold p-3 rounded-lg">
+                  {submitError}
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full bg-[#1D4ED8] hover:bg-[#1E40AF] text-white font-bold text-base py-3 rounded-xl shadow-md transition cursor-pointer"
+                disabled={isSubmitting}
+                className="w-full bg-[#1D4ED8] hover:bg-[#1E40AF] disabled:bg-slate-400 text-white font-bold text-base py-3 rounded-xl shadow-md transition cursor-pointer flex items-center justify-center gap-2"
               >
-                Visszahívást kérek
+                {isSubmitting ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Küldés folyamatban...</span>
+                  </>
+                ) : (
+                  <span>Visszahívást kérek</span>
+                )}
               </button>
             </form>
           )}
