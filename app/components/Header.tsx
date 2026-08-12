@@ -39,10 +39,10 @@ export default function Header({ onOpenContact }: HeaderProps) {
       </div>
 
       {/* Main Nav */}
-      <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
         {/* Brand Logo */}
-        <a href="#hero" className="flex items-center gap-3 group focus:outline-none">
-          <div className="relative h-14 sm:h-16 w-56 sm:w-64 transition-transform duration-300 group-hover:scale-105">
+        <a href="#hero" className="flex items-center gap-3 group focus:outline-none shrink-0">
+          <div className="relative h-12 sm:h-14 md:h-16 w-44 sm:w-52 md:w-60 transition-transform duration-300 group-hover:scale-105">
             <Image
               src="/logo.webp"
               alt="Szlávik Roló"
@@ -54,36 +54,36 @@ export default function Header({ onOpenContact }: HeaderProps) {
         </a>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-700">
-          <a href="#szolgaltatasok" className="hover:text-[#1D4ED8] transition duration-200">Szolgáltatások</a>
-          <a href="#kepek" className="hover:text-[#1D4ED8] transition duration-200">Galéria</a>
-          <a href="#miert" className="hover:text-[#1D4ED8] transition duration-200">Miért minket?</a>
-          <a href="#rolunk" className="hover:text-[#1D4ED8] transition duration-200">Rólunk</a>
-          <a href="#gyik" className="hover:text-[#1D4ED8] transition duration-200">Gyakori kérdések</a>
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-7 text-xs xl:text-sm font-semibold text-slate-700 whitespace-nowrap">
+          <a href="#szolgaltatasok" className="hover:text-[#1D4ED8] transition duration-200 whitespace-nowrap">Szolgáltatások</a>
+          <a href="#kepek" className="hover:text-[#1D4ED8] transition duration-200 whitespace-nowrap">Galéria</a>
+          <a href="#miert" className="hover:text-[#1D4ED8] transition duration-200 whitespace-nowrap">Miért minket?</a>
+          <a href="#rolunk" className="hover:text-[#1D4ED8] transition duration-200 whitespace-nowrap">Rólunk</a>
+          <a href="#gyik" className="hover:text-[#1D4ED8] transition duration-200 whitespace-nowrap">Gyakori kérdések</a>
         </nav>
 
         {/* Desktop Call & CTA Buttons */}
-        <div className="hidden md:flex items-center gap-5">
-          <div className="flex flex-col text-right">
+        <div className="hidden md:flex items-center gap-3 xl:gap-5 shrink-0">
+          <div className="flex flex-col text-right whitespace-nowrap">
             <span className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Közvetlen hívás</span>
-            <div className="flex items-center gap-2">
-              <a href="tel:+36307826402" className="text-sm font-extrabold text-[#061A40] hover:text-[#1D4ED8] transition flex items-center gap-1">
-                <Phone size={14} className="text-[#10B981]" />
-                +36 30 782 6402
+            <div className="flex items-center gap-1.5 xl:gap-2">
+              <a href="tel:+36307826402" className="text-xs xl:text-sm font-extrabold text-[#061A40] hover:text-[#1D4ED8] transition flex items-center gap-1 whitespace-nowrap">
+                <Phone size={13} className="text-[#10B981] shrink-0" />
+                <span>+36 30 782 6402</span>
               </a>
               <span className="text-slate-300">|</span>
-              <a href="tel:+36704224803" className="text-sm font-extrabold text-[#061A40] hover:text-[#1D4ED8] transition">
-                +36 70 422 4803
+              <a href="tel:+36704224803" className="text-xs xl:text-sm font-extrabold text-[#061A40] hover:text-[#1D4ED8] transition whitespace-nowrap">
+                <span>+36 70 422 4803</span>
               </a>
             </div>
           </div>
 
           <button
             onClick={onOpenContact}
-            className="bg-[#1D4ED8] hover:bg-[#1E40AF] text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+            className="bg-[#1D4ED8] hover:bg-[#1E40AF] text-white font-bold text-xs xl:text-sm px-4 xl:px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-1.5 whitespace-nowrap transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer shrink-0"
           >
-            <span>Kapcsolat / árajánlat</span>
-            <ChevronRight size={16} />
+            <span className="whitespace-nowrap">Kapcsolat / árajánlat</span>
+            <ChevronRight size={15} />
           </button>
         </div>
 
