@@ -112,25 +112,22 @@ export default function Home() {
 
       <main className="flex-grow pt-20">
 
-        {/* 2. HERO SZEKCIÓ (Tiszta fehér háttér, kártya nélkül, logó közvetlenül a háttéren) */}
-        <section id="hero" className="relative bg-white text-slate-900 pt-12 md:pt-16 pb-20 overflow-hidden border-b border-slate-200">
-          {/* Subtle Smooth Ambient Lighting */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#061A40]/5 rounded-full blur-3xl pointer-events-none"></div>
+        {/* 2. HERO SZEKCIÓ */}
+        <section id="hero" className="relative bg-white text-slate-900 pt-10 md:pt-14 pb-16 overflow-hidden border-b border-slate-200">
+          <div className="relative z-10 max-w-5xl mx-auto px-4 text-center space-y-8">
 
-          <div className="relative z-10 max-w-4xl mx-auto px-4 text-center space-y-8">
-
-            {/* 1. Directly placed Logo image on the white Hero background */}
+            {/* 1. Brand Logo Banner - Extra Large Prominent Logo */}
             <div className="flex flex-col items-center justify-center space-y-3 pb-2">
-              <div className="relative h-32 sm:h-48 md:h-60 w-[340px] sm:w-[580px] md:w-[740px] max-w-full drop-shadow-sm">
+              <div className="relative h-48 sm:h-64 md:h-80 lg:h-96 w-[400px] sm:w-[680px] md:w-[880px] lg:w-[1040px] max-w-full">
                 <Image
                   src="/logo.webp"
-                  alt="Szlávik Roló"
+                  alt="Szlávik Árnytech - Prémium Árnyékolástechnika"
                   fill
                   className="object-contain"
                   priority
                 />
               </div>
-              <span className="text-xs sm:text-sm text-slate-500 font-bold tracking-widest uppercase">SZ+H Univerzál 2015 Kft.</span>
+              <span className="text-xs sm:text-sm text-slate-400 font-extrabold tracking-widest uppercase">SZ+H UNIVERZÁL 2015 KFT.</span>
             </div>
 
             {/* 2. Centered Badge */}

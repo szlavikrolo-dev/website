@@ -89,11 +89,11 @@ export default function ShutterOverlay() {
     >
       {/* Top Redőnytok (Roll box header) */}
       <div className="w-full h-12 bg-gradient-to-b from-slate-300 via-slate-200 to-slate-300 border-b-2 border-slate-400 shadow-md relative z-20 flex items-center justify-between px-8">
-        <span className="text-xs uppercase tracking-widest font-extrabold text-slate-700">
-          SZLÁVIK ROLÓ
+        <span className="text-xs uppercase tracking-widest font-extrabold text-slate-800">
+          SZLÁVIK ÁRNYTECH
         </span>
-        <span className="text-xs uppercase tracking-widest font-bold text-slate-500">
-          ÁRNYÉKOLÁSTECHNIKA
+        <span className="text-xs uppercase tracking-widest font-bold text-slate-600">
+          PRÉMIUM ÁRNYÉKOLÁSTECHNIKA
         </span>
       </div>
 
@@ -118,18 +118,18 @@ export default function ShutterOverlay() {
         } ${isRetracting ? 'opacity-40' : ''}`}>
           
           {/* Logo Presentation */}
-          <div className="relative w-80 sm:w-96 h-28 sm:h-36 px-6 py-4 bg-white/80 backdrop-blur-md rounded-3xl border border-slate-200 shadow-2xl flex items-center justify-center">
+          <div className="relative w-80 sm:w-96 h-28 sm:h-36 px-6 py-4 bg-white/95 backdrop-blur-md rounded-3xl border border-slate-200 shadow-2xl flex items-center justify-center">
             <Image
               src="/logo.webp"
-              alt="Szlávik Roló Logó"
+              alt="Szlávik Árnytech Logó"
               fill
-              className="object-contain p-3 drop-shadow"
+              className="object-contain p-3"
               priority
             />
           </div>
 
-          <span className="text-xs sm:text-sm font-bold text-slate-600 tracking-wider uppercase bg-white/60 backdrop-blur-sm px-4 py-1.5 rounded-full border border-slate-200/80 shadow-sm">
-            Árnyékolástechnika & Nyílászáró kiegészítők
+          <span className="text-xs sm:text-sm font-bold text-slate-700 tracking-wider uppercase bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-slate-200 shadow-sm">
+            PRÉMIUM ÁRNYÉKOLÁSTECHNIKA & NYÍLÁSZÁRÓ KIEGÉSZÍTŐK
           </span>
         </div>
       </div>

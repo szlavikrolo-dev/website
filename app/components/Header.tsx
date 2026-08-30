@@ -42,10 +42,10 @@ export default function Header({ onOpenContact }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
         {/* Brand Logo */}
         <a href="#hero" className="flex items-center gap-3 group focus:outline-none shrink-0">
-          <div className="relative h-12 sm:h-14 md:h-16 w-44 sm:w-52 md:w-60 transition-transform duration-300 group-hover:scale-105">
+          <div className="relative h-12 sm:h-14 md:h-16 w-48 sm:w-60 md:w-68 transition-transform duration-300 group-hover:scale-105">
             <Image
               src="/logo.webp"
-              alt="Szlávik Roló"
+              alt="Szlávik Árnytech"
               fill
               className="object-contain object-left"
               priority
