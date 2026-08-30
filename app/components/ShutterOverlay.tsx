@@ -72,6 +72,17 @@ export default function ShutterOverlay() {
     }
   }, [isRetracting]);
 
+  useEffect(() => {
+    if (!isDismissed) {
+      document.body.classList.add('shutter-active');
+    } else {
+      document.body.classList.remove('shutter-active');
+    }
+    return () => {
+      document.body.classList.remove('shutter-active');
+    };
+  }, [isDismissed]);
+
   // If already seen / dismissed, remove from DOM completely
   if (isDismissed) {
     return null;
@@ -83,7 +94,7 @@ export default function ShutterOverlay() {
       aria-label="Kezdő Redőny Overlay"
       role="dialog"
       aria-modal="true"
-      className={`fixed inset-0 w-screen h-screen z-[99999] flex flex-col justify-between overflow-hidden select-none pointer-events-auto transition-transform duration-[2500ms] cubic-bezier(0.4, 0, 0.2, 1) ${
+      className={`fixed inset-0 top-0 bottom-0 left-0 right-0 w-full h-screen h-[100dvh] min-h-[100dvh] z-[999999] flex flex-col justify-between overflow-hidden select-none pointer-events-auto transition-transform duration-[2500ms] cubic-bezier(0.4, 0, 0.2, 1) ${
         isRetracting ? '-translate-y-full' : 'translate-y-0'
       }`}
     >
