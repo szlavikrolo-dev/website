@@ -2,8 +2,8 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Szlávik Roló - Redőny Beszerelés & Szúnyogháló',
-    short_name: 'Szlávik Roló',
+    name: 'Szlávik Árnytech - Redőny Beszerelés & Szúnyogháló',
+    short_name: 'Szlávik Árnytech',
     description: 'Műanyag és alumínium redőny gyártás, beépítés, szerviz és szúnyogháló készítés Jánoshalmán és 100 km-es körzetében.',
     start_url: '/',
     display: 'standalone',

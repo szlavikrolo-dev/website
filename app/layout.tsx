@@ -15,7 +15,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://szlavikrolo.hu'),
-  title: 'Szlávik Roló | Redőny Szerelés, Szúnyogháló & Műanyag Párkány Jánoshalma',
+  title: 'Szlávik Árnytech | Redőny Szerelés, Szúnyogháló & Műanyag Párkány Jánoshalma',
   description: 'Professzionális műanyag és alumínium redőny beépítés, szerviz, szúnyogháló készítés és műanyag ablakpárkány szerelés Jánoshalmán és 100 km-es körzetében. Ingyenes kiszállás 50 km-ig!',
   keywords: [
     'redőny Jánoshalma',
@@ -29,15 +29,15 @@ export const metadata: Metadata = {
     'ablakpárkány beépítés',
     'műanyag könyöklő',
     'palástcsere',
-    'Szlávik Roló',
+    'Szlávik Árnytech',
     'redőnyös Bács-Kiskun',
     'redőny Kecskemét',
     'redőny Baja',
     'redőny Kiskunhalas'
   ],
-  authors: [{ name: 'Szlávik Roló - SZ+H Univerzál 2015 Kft.' }],
-  creator: 'Szlávik Roló',
-  publisher: 'Szlávik Roló',
+  authors: [{ name: 'Szlávik Árnytech - SZ+H Univerzál 2015 Kft.' }],
+  creator: 'Szlávik Árnytech',
+  publisher: 'Szlávik Árnytech',
   category: 'Árnyékolástechnika',
   alternates: {
     canonical: 'https://szlavikrolo.hu',
@@ -48,24 +48,24 @@ export const metadata: Metadata = {
     apple: '/logo.webp',
   },
   openGraph: {
-    title: 'Szlávik Roló | Redőny, Szúnyogháló & Műanyag Párkány Beépítés',
+    title: 'Szlávik Árnytech | Redőny, Szúnyogháló & Műanyag Párkány Beépítés',
     description: 'Műanyag és alumínium redőny gyártás, beépítés, szerviz, szúnyogháló készítés és műanyag ablakpárkány beszerelés Jánoshalmán és környékén.',
     url: 'https://szlavikrolo.hu',
     type: 'website',
     locale: 'hu_HU',
-    siteName: 'Szlávik Roló',
+    siteName: 'Szlávik Árnytech',
     images: [
       {
         url: '/logo.webp',
         width: 1200,
         height: 630,
-        alt: 'Szlávik Roló - Redőny és Árnyékolástechnika',
+        alt: 'Szlávik Árnytech - Redőny és Árnyékolástechnika',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Szlávik Roló | Redőny, Szúnyogháló & Műanyag Párkány Jánoshalma',
+    title: 'Szlávik Árnytech | Redőny, Szúnyogháló & Műanyag Párkány Jánoshalma',
     description: 'Redőny beszerelés, javítás, szúnyogháló készítés és műanyag ablakpárkány beépítés Jánoshalmán és 100 km-es körzetében.',
     images: ['/logo.webp'],
   },
@@ -85,7 +85,7 @@ export const metadata: Metadata = {
 const jsonLdLocalBusiness = {
   '@context': 'https://schema.org',
   '@type': 'HomeAndConstructionBusiness',
-  'name': 'Szlávik Roló (SZ+H Univerzál 2015 Kft.)',
+  'name': 'Szlávik Árnytech (SZ+H Univerzál 2015 Kft.)',
   'image': 'https://szlavikrolo.hu/logo.webp',
   'logo': 'https://szlavikrolo.hu/logo.webp',
   'url': 'https://szlavikrolo.hu',

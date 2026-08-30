@@ -39,7 +39,7 @@ export default function QuickContactModal({ isOpen, onClose }: QuickContactModal
         body: JSON.stringify({
           access_key: '4b8f2f7a-c9a2-4681-9503-f9f2b085fc12',
           subject: `Új visszahívási kérés - ${name}`,
-          from_name: 'Szlávik Roló Weboldal',
+          from_name: 'Szlávik Árnytech Weboldal',
           name: name,
           phone: phone,
           message: message || 'Nem adott meg külön üzenetet.',

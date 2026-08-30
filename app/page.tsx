@@ -72,9 +72,9 @@ const processSteps = [
 ];
 
 const galleryImages = [
-  { src: "/redony-1.webp", alt: "Szlávik Roló redőny 1" },
-  { src: "/redony-2.webp", alt: "Szlávik Roló redőny 2" },
-  { src: "/redony-4.webp", alt: "Szlávik Roló redőny 4" },
+  { src: "/redony-1.webp", alt: "Szlávik Árnytech redőny 1" },
+  { src: "/redony-2.webp", alt: "Szlávik Árnytech redőny 2" },
+  { src: "/redony-4.webp", alt: "Szlávik Árnytech redőny 4" },
 ];
 
 const faqs = [
@@ -326,7 +326,7 @@ export default function Home() {
                 Bizalom és garancia
               </span>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                Miért válassza a Szlávik Roló-t?
+                Miért válassza a Szlávik Árnytech-et?
               </h2>
               <p className="text-base text-gray-300 font-light">
                 Tudjuk, hogy az otthon biztonsága és árnyékolása hosszútávú befektetés. Nálunk a minőség garantált.
@@ -372,7 +372,7 @@ export default function Home() {
 
                 <div className="space-y-4 text-slate-600 text-base leading-relaxed">
                   <p>
-                    A <strong className="text-[#061A40]">Szlávik Roló</strong> (SZ+H Univerzál 2015 Kft.) Jánoshalmán működő helyi vállalkozás. Évtizedek óta foglalkozunk műanyag és alumínium redőnyök gyártásával, motorizálásával és szúnyoghálók kivitelezésével.
+                    A <strong className="text-[#061A40]">Szlávik Árnytech</strong> (SZ+H Univerzál 2015 Kft.) Jánoshalmán működő helyi vállalkozás. Évtizedek óta foglalkozunk műanyag és alumínium redőnyök gyártásával, motorizálásával és szúnyoghálók kivitelezésével.
                   </p>
                   <p>
                     Célunk egyszerű: a környékbeli lakosoknak olyan megbízható, közvetlenül elérhető szakembert biztosítani, aki nem tűnik el a munka végeztével, hanem helyben van és vállalja a felelősséget.
@@ -405,7 +405,7 @@ export default function Home() {
                   <div className="relative h-48 w-full rounded-2xl overflow-hidden border border-white/10 shadow-md">
                     <Image
                       src="/redony-3.webp"
-                      alt="Szlávik Roló redőny beépítés"
+                      alt="Szlávik Árnytech redőny beépítés"
                       fill
                       className="object-cover"
                     />
@@ -526,7 +526,7 @@ export default function Home() {
                 className="inline-flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-blue-700 text-white font-bold text-sm py-3.5 px-7 rounded-xl shadow-md transition"
               >
                 <Facebook size={20} />
-                Látogasson el a Szlávik Roló Facebook oldalára
+                Látogasson el a Szlávik Árnytech Facebook oldalára
               </a>
             </div>
 
@@ -694,7 +694,7 @@ export default function Home() {
               <div className="relative h-14 w-52">
                 <Image
                   src="/logo.webp"
-                  alt="Szlávik Roló Logó"
+                  alt="Szlávik Árnytech Logó"
                   fill
                   className="object-contain object-left"
                 />
@@ -756,7 +756,7 @@ export default function Home() {
           </div>
 
           <div className="pt-8 border-t border-white/10 text-xs text-gray-500 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
-            <p>&copy; 2026 Szlávik Roló (SZ+H Univerzál 2015 Kft.) — Minden jog fenntartva.</p>
+            <p>&copy; 2026 Szlávik Árnytech (SZ+H Univerzál 2015 Kft.) — Minden jog fenntartva.</p>
             <div className="flex gap-4 text-gray-400">
               <a href="#" className="hover:text-white transition">Adatvédelmi tájékoztató</a>
               <span>|</span>
