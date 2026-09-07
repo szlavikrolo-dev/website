@@ -1,95 +1,92 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 export default function ShutterOverlay() {
-  const [hasMounted, setHasMounted] = useState(false);
-  const [isDismissed, setIsDismissed] = useState(true);
+  const [mounted, setMounted] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [showLogo, setShowLogo] = useState(false);
-  const [isRetracting, setIsRetracting] = useState(false);
+  const [retracting, setRetracting] = useState(false);
 
-  const logoTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const retractTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerLogoRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRetractRef = useRef<NodeJS.Timeout | null>(null);
+  const timerDismissRef = useRef<NodeJS.Timeout | null>(null);
 
-  const clearTimers = () => {
-    if (logoTimerRef.current) clearTimeout(logoTimerRef.current);
-    if (retractTimerRef.current) clearTimeout(retractTimerRef.current);
+  const clearAllTimers = () => {
+    if (timerLogoRef.current) clearTimeout(timerLogoRef.current);
+    if (timerRetractRef.current) clearTimeout(timerRetractRef.current);
+    if (timerDismissRef.current) clearTimeout(timerDismissRef.current);
   };
 
-  const startAnimationSequence = useCallback(() => {
-    clearTimers();
-    setIsDismissed(false);
+  const runShutterAnimation = () => {
+    clearAllTimers();
+    setVisible(true);
     setShowLogo(false);
-    setIsRetracting(false);
+    setRetracting(false);
 
-    // Sequence 1: 0.8 seconds after shutter covers screen -> Smoothly fade in logo
-    logoTimerRef.current = setTimeout(() => {
+    // Step 1: Fade in logo smoothly after 0.8 seconds
+    timerLogoRef.current = setTimeout(() => {
       setShowLogo(true);
     }, 800);
 
-    // Sequence 2: 3.2 seconds total -> Auto retract shutter smoothly
-    retractTimerRef.current = setTimeout(() => {
-      setIsRetracting(true);
+    // Step 2: Start retracting shutter upwards after 3.2 seconds
+    timerRetractRef.current = setTimeout(() => {
+      setRetracting(true);
       try {
         sessionStorage.setItem('szlavik_shutter_seen', 'true');
       } catch (e) {}
     }, 3200);
-  }, []);
+
+    // Step 3: Unmount component completely after 5.4 seconds (3.2s wait + 2.2s animation)
+    timerDismissRef.current = setTimeout(() => {
+      setVisible(false);
+    }, 5400);
+  };
 
   useEffect(() => {
-    setHasMounted(true);
+    setMounted(true);
 
     try {
       localStorage.removeItem('szlavik_shutter_seen');
-      const urlParams = new URLSearchParams(window.location.search);
-      const isResetQuery = urlParams.has('shutter') || urlParams.has('reset');
+      const params = new URLSearchParams(window.location.search);
+      const forcedReset = params.has('reset') || params.has('shutter');
 
-      if (isResetQuery) {
+      if (forcedReset) {
         sessionStorage.removeItem('szlavik_shutter_seen');
-        startAnimationSequence();
+        runShutterAnimation();
       } else {
-        const shutterSeen = sessionStorage.getItem('szlavik_shutter_seen');
-        if (!shutterSeen) {
-          startAnimationSequence();
+        const seen = sessionStorage.getItem('szlavik_shutter_seen');
+        if (!seen) {
+          runShutterAnimation();
         } else {
-          setIsDismissed(true);
+          setVisible(false);
         }
       }
     } catch (e) {
-      startAnimationSequence();
+      runShutterAnimation();
     }
 
-    // Dev helper: Shift + R shortcut to re-trigger shutter animation sequence anytime
+    // Shortcut: Shift + R replays shutter animation anytime
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.shiftKey && (e.key === 'R' || e.key === 'r')) {
         try {
           sessionStorage.removeItem('szlavik_shutter_seen');
         } catch (err) {}
-        startAnimationSequence();
+        runShutterAnimation();
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => {
-      clearTimers();
+      clearAllTimers();
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [startAnimationSequence]);
+  }, []);
 
-  // Fallback cleanup timer (2.5s after retract starts) to guarantee unmount
+  // Lock body scroll while shutter is visible
   useEffect(() => {
-    if (isRetracting) {
-      const timer = setTimeout(() => {
-        setIsDismissed(true);
-      }, 2400);
-      return () => clearTimeout(timer);
-    }
-  }, [isRetracting]);
-
-  // Toggle body scroll lock and body.shutter-active class
-  useEffect(() => {
-    if (hasMounted && !isDismissed) {
+    if (mounted && visible) {
       document.body.classList.add('shutter-active');
       document.body.style.overflow = 'hidden';
     } else {
@@ -100,32 +97,23 @@ export default function ShutterOverlay() {
       document.body.classList.remove('shutter-active');
       document.body.style.overflow = '';
     };
-  }, [hasMounted, isDismissed]);
+  }, [mounted, visible]);
 
-  const handleAnimationEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-    if (e.currentTarget === e.target && isRetracting) {
-      setIsDismissed(true);
-    }
-  };
-
-  // If not mounted on client yet, or already dismissed, render nothing
-  if (!hasMounted || isDismissed) {
+  if (!mounted || !visible) {
     return null;
   }
 
   return (
     <div
-      onTransitionEnd={handleAnimationEnd}
       aria-label="Kezdő Redőny Overlay"
       role="dialog"
       aria-modal="true"
       style={{
-        transform: isRetracting ? 'translateY(-100%)' : 'translateY(0%)',
-        transition: 'transform 2200ms cubic-bezier(0.4, 0, 0.2, 1)'
+        transform: retracting ? 'translateY(-100%)' : 'translateY(0%)',
+        transition: 'transform 2200ms cubic-bezier(0.4, 0, 0.2, 1)',
+        willChange: 'transform'
       }}
-      className={`fixed inset-0 top-0 bottom-0 left-0 right-0 w-full h-screen h-[100dvh] min-h-[100dvh] z-[999999] flex flex-col justify-between overflow-hidden select-none pointer-events-auto shutter-overlay-container ${
-        isRetracting ? '-translate-y-full' : 'translate-y-0'
-      }`}
+      className="fixed inset-0 top-0 bottom-0 left-0 right-0 w-full h-screen h-[100dvh] min-h-[100dvh] z-[999999] flex flex-col justify-between overflow-hidden select-none pointer-events-auto shutter-overlay-container"
     >
       {/* Top Redőnytok (Roll box header) */}
       <div className="w-full h-12 bg-gradient-to-b from-slate-300 via-slate-200 to-slate-300 border-b-2 border-slate-400 shadow-md relative z-20 flex items-center justify-between px-8">
@@ -139,10 +127,10 @@ export default function ShutterOverlay() {
 
       {/* Main Fehér Redőnylamellák Surface */}
       <div className="relative flex-1 w-full shutter-slats-bg flex flex-col items-center justify-center px-6 overflow-hidden">
-        {/* Left Side Rail (Lefutó) */}
+        {/* Left Side Rail (Lefutó sín) */}
         <div className="absolute top-0 bottom-0 left-0 w-6 sm:w-10 bg-gradient-to-r from-slate-300 via-slate-200 to-slate-300 border-r-2 border-slate-400 z-10 shadow-md" />
 
-        {/* Right Side Rail (Lefutó) */}
+        {/* Right Side Rail (Lefutó sín) */}
         <div className="absolute top-0 bottom-0 right-0 w-6 sm:w-10 bg-gradient-to-l from-slate-300 via-slate-200 to-slate-300 border-l-2 border-slate-400 z-10 shadow-md" />
 
         {/* Horizontal Redőnylamellák (Slat lines) */}
@@ -152,12 +140,12 @@ export default function ShutterOverlay() {
           ))}
         </div>
 
-        {/* Center Content: Logo (Fades in after 1.0s, auto-retracts after 2.0s more) */}
-        <div className={`relative z-20 flex flex-col items-center gap-4 max-w-xl w-full px-4 text-center transition-all duration-1000 transform ${
-          showLogo ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-2'
-        } ${isRetracting ? 'opacity-40' : ''}`}>
-          
-          {/* Logo Presentation */}
+        {/* Center Content: Logo Card */}
+        <div
+          className={`relative z-20 flex flex-col items-center gap-4 max-w-xl w-full px-4 text-center transition-all duration-1000 transform ${
+            showLogo ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-2'
+          } ${retracting ? 'opacity-40' : ''}`}
+        >
           <div className="relative w-80 sm:w-96 h-28 sm:h-36 px-6 py-4 bg-white/95 backdrop-blur-md rounded-3xl border border-slate-200 shadow-2xl flex items-center justify-center">
             <Image
               src="/logo.webp"
