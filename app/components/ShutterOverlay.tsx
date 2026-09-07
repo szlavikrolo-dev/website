@@ -113,7 +113,7 @@ export default function ShutterOverlay() {
         transition: 'transform 2200ms cubic-bezier(0.4, 0, 0.2, 1)',
         willChange: 'transform'
       }}
-      className="fixed inset-0 top-0 bottom-0 left-0 right-0 w-full h-screen h-[100dvh] min-h-[100dvh] z-[999999] flex flex-col justify-between overflow-hidden select-none pointer-events-auto shutter-overlay-container"
+      className="fixed inset-0 top-0 left-0 right-0 w-full h-screen h-[100dvh] min-h-[100dvh] z-[999999] flex flex-col justify-between overflow-hidden select-none pointer-events-auto shutter-overlay-container"
     >
       {/* Top Redőnytok (Roll box header) */}
       <div className="w-full h-12 bg-gradient-to-b from-slate-300 via-slate-200 to-slate-300 border-b-2 border-slate-400 shadow-md relative z-20 flex items-center justify-between px-8">
