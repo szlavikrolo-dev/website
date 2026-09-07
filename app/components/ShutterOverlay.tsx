@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function ShutterOverlay() {
   const [hasMounted, setHasMounted] = useState(false);
-  const [isDismissed, setIsDismissed] = useState(false);
+  const [isDismissed, setIsDismissed] = useState(true);
   const [showLogo, setShowLogo] = useState(false);
   const [isRetracting, setIsRetracting] = useState(false);
 
@@ -23,18 +23,18 @@ export default function ShutterOverlay() {
     setShowLogo(false);
     setIsRetracting(false);
 
-    // Sequence 1: 1 second after shutter appears -> Smoothly fade in logo
+    // Sequence 1: 0.8 seconds after shutter covers screen -> Smoothly fade in logo
     logoTimerRef.current = setTimeout(() => {
       setShowLogo(true);
-    }, 1000);
+    }, 800);
 
-    // Sequence 2: 3 seconds total -> Auto retract shutter
+    // Sequence 2: 3.2 seconds total -> Auto retract shutter smoothly
     retractTimerRef.current = setTimeout(() => {
       setIsRetracting(true);
       try {
         sessionStorage.setItem('szlavik_shutter_seen', 'true');
       } catch (e) {}
-    }, 3000);
+    }, 3200);
   }, []);
 
   useEffect(() => {
