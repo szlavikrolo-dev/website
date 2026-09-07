@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 
 export default function ShutterOverlay() {
@@ -9,31 +9,56 @@ export default function ShutterOverlay() {
   const [showLogo, setShowLogo] = useState(false);
   const [isRetracting, setIsRetracting] = useState(false);
 
-  useEffect(() => {
-    setHasMounted(true);
-    
-    // Check if user has already seen the shutter in this session
-    try {
-      localStorage.removeItem('szlavik_shutter_seen');
-      const shutterSeen = sessionStorage.getItem('szlavik_shutter_seen');
-      if (shutterSeen) {
-        setIsDismissed(true);
-        return;
-      }
-    } catch (e) {}
+  const logoTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const retractTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const clearTimers = () => {
+    if (logoTimerRef.current) clearTimeout(logoTimerRef.current);
+    if (retractTimerRef.current) clearTimeout(retractTimerRef.current);
+  };
+
+  const startAnimationSequence = useCallback(() => {
+    clearTimers();
+    setIsDismissed(false);
+    setShowLogo(false);
+    setIsRetracting(false);
 
     // Sequence 1: 1 second after shutter appears -> Smoothly fade in logo
-    const logoTimer = setTimeout(() => {
+    logoTimerRef.current = setTimeout(() => {
       setShowLogo(true);
     }, 1000);
 
-    // Sequence 2: 2 seconds after logo appears (Total 3 seconds) -> Auto retract shutter
-    const retractTimer = setTimeout(() => {
+    // Sequence 2: 3 seconds total -> Auto retract shutter
+    retractTimerRef.current = setTimeout(() => {
       setIsRetracting(true);
       try {
         sessionStorage.setItem('szlavik_shutter_seen', 'true');
       } catch (e) {}
     }, 3000);
+  }, []);
+
+  useEffect(() => {
+    setHasMounted(true);
+
+    try {
+      localStorage.removeItem('szlavik_shutter_seen');
+      const urlParams = new URLSearchParams(window.location.search);
+      const isResetQuery = urlParams.has('shutter') || urlParams.has('reset');
+
+      if (isResetQuery) {
+        sessionStorage.removeItem('szlavik_shutter_seen');
+        startAnimationSequence();
+      } else {
+        const shutterSeen = sessionStorage.getItem('szlavik_shutter_seen');
+        if (!shutterSeen) {
+          startAnimationSequence();
+        } else {
+          setIsDismissed(true);
+        }
+      }
+    } catch (e) {
+      startAnimationSequence();
+    }
 
     // Dev helper: Shift + R shortcut to re-trigger shutter animation sequence anytime
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -41,50 +66,50 @@ export default function ShutterOverlay() {
         try {
           sessionStorage.removeItem('szlavik_shutter_seen');
         } catch (err) {}
-        setShowLogo(false);
-        setIsRetracting(false);
-        setIsDismissed(false);
+        startAnimationSequence();
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => {
-      clearTimeout(logoTimer);
-      clearTimeout(retractTimer);
+      clearTimers();
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [startAnimationSequence]);
 
-  // Only unmount when the main root container's translateY transform animation finishes
-  const handleAnimationEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-    if (e.currentTarget === e.target && e.propertyName === 'transform' && isRetracting) {
-      setIsDismissed(true);
-    }
-  };
-
-  // Fallback cleanup timer (2.7s after retract starts = 5.7s total) to guarantee unmount
+  // Fallback cleanup timer (2.5s after retract starts) to guarantee unmount
   useEffect(() => {
     if (isRetracting) {
       const timer = setTimeout(() => {
         setIsDismissed(true);
-      }, 2700);
+      }, 2400);
       return () => clearTimeout(timer);
     }
   }, [isRetracting]);
 
+  // Toggle body scroll lock and body.shutter-active class
   useEffect(() => {
-    if (!isDismissed) {
+    if (hasMounted && !isDismissed) {
       document.body.classList.add('shutter-active');
+      document.body.style.overflow = 'hidden';
     } else {
       document.body.classList.remove('shutter-active');
+      document.body.style.overflow = '';
     }
     return () => {
       document.body.classList.remove('shutter-active');
+      document.body.style.overflow = '';
     };
-  }, [isDismissed]);
+  }, [hasMounted, isDismissed]);
 
-  // If already seen / dismissed, remove from DOM completely
-  if (isDismissed) {
+  const handleAnimationEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
+    if (e.currentTarget === e.target && isRetracting) {
+      setIsDismissed(true);
+    }
+  };
+
+  // If not mounted on client yet, or already dismissed, render nothing
+  if (!hasMounted || isDismissed) {
     return null;
   }
 
@@ -94,7 +119,11 @@ export default function ShutterOverlay() {
       aria-label="Kezdő Redőny Overlay"
       role="dialog"
       aria-modal="true"
-      className={`fixed inset-0 top-0 bottom-0 left-0 right-0 w-full h-screen h-[100dvh] min-h-[100dvh] z-[999999] flex flex-col justify-between overflow-hidden select-none pointer-events-auto transition-transform duration-[2500ms] cubic-bezier(0.4, 0, 0.2, 1) ${
+      style={{
+        transform: isRetracting ? 'translateY(-100%)' : 'translateY(0%)',
+        transition: 'transform 2200ms cubic-bezier(0.4, 0, 0.2, 1)'
+      }}
+      className={`fixed inset-0 top-0 bottom-0 left-0 right-0 w-full h-screen h-[100dvh] min-h-[100dvh] z-[999999] flex flex-col justify-between overflow-hidden select-none pointer-events-auto shutter-overlay-container ${
         isRetracting ? '-translate-y-full' : 'translate-y-0'
       }`}
     >
